@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
+using ProjectEuler.Solutions.Algorithms;
 
 namespace ProjectEuler.Solutions
 {
@@ -12,21 +14,36 @@ namespace ProjectEuler.Solutions
 
         public static void Problem1()
         {
-            //QUESTION
             Console.WriteLine("PROBLEM 1");
             Console.WriteLine("What is the sum of all the multiples of 3 or 5 below 1000?");
 
+            // JIT
+            int sum = P1_bruteforce();
+
             timer.Reset();
             timer.Start();
-            int sum = P1_calculation();
+            sum = P1_bruteforce();
             timer.Stop();
 
-            //ANSWER
+            Console.Write("Bruteforce: ");
             Console.WriteLine(string.Format("{0:N}", sum));
             Console.WriteLine("Elapsed Time: {0} milliseconds", timer.ElapsedMilliseconds.ToString());
+
+            // JIT
+            sum = (int)P1_explicit();
+
+            timer.Reset();
+            timer.Start();
+            sum = (int)P1_explicit();
+            timer.Stop();
+
+            Console.Write("Explicit: ");
+            Console.WriteLine(string.Format("{0:N}", sum));
+            Console.WriteLine("Elapsed Time: {0} milliseconds", timer.ElapsedMilliseconds.ToString());
+
             Console.ReadLine();
         }
-        private static int P1_calculation()
+        private static int P1_bruteforce()
         {
             int sum = 0;
             for (int i = 1; i < 1000; i++)
@@ -35,6 +52,20 @@ namespace ProjectEuler.Solutions
                     sum += i;
             }
             return sum;
+        }
+        private static long P1_explicit()
+        {
+            // Problem Parameters
+            int n = 1000;
+            int a = 3;
+            int b = 5;
+
+            n--; // "below"
+            long lcm = Fn.Lcm(a, b);
+            long suma = Series.SumOfEveryKthIntegers(a, n);
+            long sumb = Series.SumOfEveryKthIntegers(b, n);
+            long sumlcm = Series.SumOfEveryKthIntegers(lcm, n);
+            return suma + sumb - sumlcm;
         }
 
         #endregion Problem 1
