@@ -41,6 +41,7 @@ namespace ProjectEuler.Solutions
                 case "LIST":
                 case "L":
                     break;
+                case "":
                 case "EXIT":
                 case "E":
                     _exit = true;
