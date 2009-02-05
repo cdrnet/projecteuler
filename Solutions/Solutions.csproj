@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Sequence.cs" />
     <Compile Include="Algorithms\Series.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Program.cs" />

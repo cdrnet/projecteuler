@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics;
 using ProjectEuler.Solutions.Algorithms;
@@ -8,7 +9,42 @@ namespace ProjectEuler.Solutions
 {
     public static class Solution
     {
-        private static System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+        private static Stopwatch timer = new Stopwatch();
+        const int roundsJit = 2;
+        const int roundsRun = 5;
+
+        static void BenchmarkSolution<T>(string name, Func<T> algorithm)
+        {
+            T result = default(T);
+
+            // Hash value, maintained to ensure nothing is actually optimized away
+            int hash = 0;
+
+            // JIT
+            for(int i = 0; i < roundsJit; i++)
+            {
+                result = algorithm();
+                hash ^= result.GetHashCode();
+            }
+            //Console.WriteLine("Hash: {0}", doNotOptimizeMeAway);
+
+            timer.Reset();
+            timer.Start();
+            for(int i = 0; i < roundsRun; i++)
+            {
+                result = algorithm();
+                hash ^= result.GetHashCode();
+            }
+            timer.Stop();
+
+            Console.WriteLine("{0}: {1}", name, result);
+            Console.Write("Elapsed Time: ");
+            ConsoleColor previousColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("{0} ms ({1} ticks)", timer.ElapsedMilliseconds / roundsRun, timer.ElapsedTicks / roundsRun);
+            Console.ForegroundColor = previousColor;
+            Console.WriteLine(" on {0} rounds average, hashLsb={1}", roundsRun, hash & 0x1);
+        }
 
         #region Problem 1
 
@@ -17,33 +53,12 @@ namespace ProjectEuler.Solutions
             Console.WriteLine("PROBLEM 1");
             Console.WriteLine("What is the sum of all the multiples of 3 or 5 below 1000?");
 
-            // JIT
-            int sum = P1_bruteforce();
-
-            timer.Reset();
-            timer.Start();
-            sum = P1_bruteforce();
-            timer.Stop();
-
-            Console.Write("Bruteforce: ");
-            Console.WriteLine(string.Format("{0:N}", sum));
-            Console.WriteLine("Elapsed Time: {0} milliseconds", timer.ElapsedMilliseconds.ToString());
-
-            // JIT
-            sum = (int)P1_explicit();
-
-            timer.Reset();
-            timer.Start();
-            sum = (int)P1_explicit();
-            timer.Stop();
-
-            Console.Write("Explicit: ");
-            Console.WriteLine(string.Format("{0:N}", sum));
-            Console.WriteLine("Elapsed Time: {0} milliseconds", timer.ElapsedMilliseconds.ToString());
+            BenchmarkSolution<int>("Approach 1 (Bruteforce)", P1_1_Bruteforce);
+            BenchmarkSolution<long>("Approach 2 (Explicit)", P1_2_Explicit);
 
             Console.ReadLine();
         }
-        private static int P1_bruteforce()
+        private static int P1_1_Bruteforce()
         {
             int sum = 0;
             for (int i = 1; i < 1000; i++)
@@ -53,7 +68,7 @@ namespace ProjectEuler.Solutions
             }
             return sum;
         }
-        private static long P1_explicit()
+        private static long P1_2_Explicit()
         {
             // Problem Parameters
             int n = 1000;
@@ -74,21 +89,15 @@ namespace ProjectEuler.Solutions
 
         public static void Problem2()
         {
-            //QUESTION
             Console.WriteLine("PROBLEM 2");
             Console.WriteLine("What is the sum of all the even-valued terms in the sequence which do not exceed four million?");
 
-            timer.Reset();
-            timer.Start();
-            double sum = P2_calculation();
-            timer.Stop();
-
-            //ANSWER
-            Console.WriteLine(string.Format("{0:N}", sum));
-            Console.WriteLine("Elapsed Time: {0} milliseconds", timer.ElapsedMilliseconds.ToString());
+            BenchmarkSolution<double>("Approach 1 (Bruteforce)", P2_1_Bruteforce);
+            BenchmarkSolution<long>("Approach 2 (Bruteforce)", P2_2_Bruteforce);
+            
             Console.ReadLine();
         }
-        private static double P2_calculation()
+        private static double P2_1_Bruteforce()
         {
             double[] fibSeq = _getFibonacciSequence(4000000);
             double sum = 0;
@@ -115,6 +124,10 @@ namespace ProjectEuler.Solutions
             }
 
             return fibSeq.ToArray();
+        }
+        private static long P2_2_Bruteforce()
+        {
+            return Sequence.EnumerateFibonacciEven(4000000).Sum();
         }
 
         #endregion Problem 2
