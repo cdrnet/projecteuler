@@ -131,7 +131,7 @@ namespace ProjectEuler.Solutions
                 {
                     new Approach
                     {
-                        Title = "Partial Wheel",
+                        Title = "Bruteforce (Partial Wheel)",
                         WarmupRounds = 2,
                         BenchmarkRounds = 50,
                         Algorithm = delegate
@@ -154,6 +154,17 @@ namespace ProjectEuler.Solutions
                             
                             // failed
                             return -1;
+                        }
+                    },
+
+                    new Approach
+                    {
+                        Title = "Euclid-LCM",
+                        WarmupRounds = 2,
+                        BenchmarkRounds = 50,
+                        Algorithm = delegate
+                        {
+                            return Fn.Lcm(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
                         }
                     }
                 },
