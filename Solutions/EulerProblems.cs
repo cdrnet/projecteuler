@@ -62,7 +62,7 @@ namespace ProjectEuler.Solutions
                 {
                     new Approach
                     {
-                        Title = "Bruteforce 1",
+                        Title = "Bruteforce (Loop Chain)",
                         WarmupRounds = 5,
                         BenchmarkRounds = 1000,
                         Algorithm = delegate
@@ -82,7 +82,7 @@ namespace ProjectEuler.Solutions
 
                     new Approach
                     {
-                        Title = "Bruteforce 2",
+                        Title = "Bruteforce (Enumerator Chain)",
                         WarmupRounds = 5,
                         BenchmarkRounds = 1000,
                         Algorithm = () => Sequence.EnumerateFibonacciEven(4000000).Sum()
@@ -131,26 +131,29 @@ namespace ProjectEuler.Solutions
                 {
                     new Approach
                     {
-                        WarmupRounds = 1,
-                        BenchmarkRounds = 1,
+                        Title = "Partial Wheel",
+                        WarmupRounds = 2,
+                        BenchmarkRounds = 50,
                         Algorithm = delegate
                         {
-                            double answer = -1;
-                            for (double i = 2520; i < 400000000; i++)
+                            for (int i = 2520; i < 400000000; i+=2520)
                             {
-                                for (double j = 2; j < 21; j++)
+                                for (int j = 2; j < 21; j++)
                                 {
                                     if (i % j != 0)
+                                    {
                                         break;
+                                    }
 
                                     if (j == 20)
-                                        answer = i;
+                                    {
+                                        return i;
+                                    }
                                 }
-
-                                if (answer > 0)
-                                    break;
                             }
-                            return Convert.ToInt64(answer);
+                            
+                            // failed
+                            return -1;
                         }
                     }
                 },
@@ -247,6 +250,8 @@ namespace ProjectEuler.Solutions
                 {
                     new Approach
                     {
+                        WarmupRounds = 0,
+                        BenchmarkRounds = 1,
                         Algorithm = Solution.Problem9
                     }
                 },
