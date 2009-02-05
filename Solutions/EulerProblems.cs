@@ -173,6 +173,9 @@ namespace ProjectEuler.Solutions
                 {
                     new Approach
                     {
+                        Title = "Bruteforce 1",
+                        WarmupRounds = 5,
+                        BenchmarkRounds = 1000,
                         Algorithm = delegate
                         {
                             double sumOfSquares = 100.SumOfSquares();
@@ -183,6 +186,9 @@ namespace ProjectEuler.Solutions
 
                     new Approach
                     {
+                        Title = "Bruteforce 2",
+                        WarmupRounds = 5,
+                        BenchmarkRounds = 1000,
                         Algorithm = delegate
                         {
                             //I'm sure this is faster because you only loop through the terms once
@@ -197,6 +203,20 @@ namespace ProjectEuler.Solutions
                             square_sums *= square_sums;
 
                             return Convert.ToInt64(square_sums - sum_squares);
+                        }
+                    },
+
+                    new Approach
+                    {
+                        Title = "Explicit",
+                        WarmupRounds = 5,
+                        BenchmarkRounds = 1000,
+                        Algorithm = delegate
+                        {
+                            // 1/12*n*(n-1)*(3*n+2)*(n+1)
+                            long sum = Series.SumOfIntegers(100);
+                            long sumOfSquares = Series.SumOfSquares(100);
+                            return (sum * sum) - sumOfSquares;
                         }
                     }
                 },

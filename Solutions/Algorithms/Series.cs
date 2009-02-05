@@ -59,5 +59,37 @@ namespace ProjectEuler.Solutions.Algorithms
 
             return last * (last + k) / (2 * k);
         }
+
+        /// <summary>
+        /// sum(i^2, i=1..n);
+        /// </summary>
+        /// <param name="last">n</param>
+        public static
+        long
+        SumOfSquares(long last)
+        {
+            if(last < 1)
+            {
+                return 0;
+            }
+
+            return last * (last + 1) * (last + last + 1) / 6;
+        }
+
+        /// <summary>
+        /// sum(i^3, i=1..n);
+        /// </summary>
+        /// <param name="last">n</param>
+        public static
+        long
+        SumOfCubes(long last)
+        {
+            if(last < 1)
+            {
+                return 0;
+            }
+
+            return (last * last) * ((last + 1) * (last + 1)) / 4;
+        }
     }
 }
