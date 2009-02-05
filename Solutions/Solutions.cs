@@ -10,10 +10,8 @@ namespace ProjectEuler.Solutions
     public static class Solution
     {
         private static Stopwatch timer = new Stopwatch();
-        const int roundsJit = 2;
-        const int roundsRun = 5;
 
-        static void BenchmarkSolution<T>(string name, Func<T> algorithm)
+        static void BenchmarkSolution<T>(string name, Func<T> algorithm, int roundsJit, int roundsRun)
         {
             T result = default(T);
 
@@ -44,6 +42,7 @@ namespace ProjectEuler.Solutions
             Console.Write("{0} ms ({1} ticks)", timer.ElapsedMilliseconds / roundsRun, timer.ElapsedTicks / roundsRun);
             Console.ForegroundColor = previousColor;
             Console.WriteLine(" on {0} rounds average, hashLsb={1}", roundsRun, hash & 0x1);
+            Console.WriteLine();
         }
 
         #region Problem 1
@@ -52,9 +51,10 @@ namespace ProjectEuler.Solutions
         {
             Console.WriteLine("PROBLEM 1");
             Console.WriteLine("What is the sum of all the multiples of 3 or 5 below 1000?");
+            Console.WriteLine();
 
-            BenchmarkSolution<int>("Approach 1 (Bruteforce)", P1_1_Bruteforce);
-            BenchmarkSolution<long>("Approach 2 (Explicit)", P1_2_Explicit);
+            BenchmarkSolution<int>("Approach 1 (Bruteforce)", P1_1_Bruteforce, 5, 100);
+            BenchmarkSolution<long>("Approach 2 (Explicit)", P1_2_Explicit, 5, 100);
 
             Console.ReadLine();
         }
@@ -91,9 +91,10 @@ namespace ProjectEuler.Solutions
         {
             Console.WriteLine("PROBLEM 2");
             Console.WriteLine("What is the sum of all the even-valued terms in the sequence which do not exceed four million?");
+            Console.WriteLine();
 
-            BenchmarkSolution<double>("Approach 1 (Bruteforce)", P2_1_Bruteforce);
-            BenchmarkSolution<long>("Approach 2 (Bruteforce)", P2_2_Bruteforce);
+            BenchmarkSolution<double>("Approach 1 (Bruteforce)", P2_1_Bruteforce, 5, 100);
+            BenchmarkSolution<long>("Approach 2 (Bruteforce)", P2_2_Bruteforce, 5, 100);
             
             Console.ReadLine();
         }
