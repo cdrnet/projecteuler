@@ -51,11 +51,17 @@
   <ItemGroup>
     <Compile Include="Algorithms\Sequence.cs" />
     <Compile Include="Algorithms\Series.cs" />
+    <Compile Include="EulerProblems.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Problem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleObjects.cs" />
+    <Compile Include="Approach.cs" />
     <Compile Include="Solutions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Problems\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
