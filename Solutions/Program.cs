@@ -46,6 +46,10 @@ namespace ProjectEuler.Solutions
                 case "E":
                     _exit = true;
                     break;
+                case "TEST":
+                case "T":
+                    Tests.GetHashCodes_Test();
+                    break;
                 default:
                     isKeyword = false;
                     break;
